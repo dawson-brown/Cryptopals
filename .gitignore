@@ -1,0 +1,6 @@
+# ignore object files
+*.o
+
+# ignore exectuable file
+parser
+base64
