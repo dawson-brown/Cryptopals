@@ -1,6 +1,9 @@
 # ignore object files
 *.o
 
+#ignore vscode debug files
+.vscode/
+
 # ignore exectuable file
 parser
 hex64
