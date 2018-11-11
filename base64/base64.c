@@ -10,6 +10,35 @@ static char base64Dic[65] = {
 	'w', 'x', 'y', 'z', '0', '1', '2', '3',
 	'4', '5', '6', '7', '8', '9', '+', '/'
 };
+ 
+base_64_t *Base64Encode(unsigned char* buffer, size_t length) {
+
+	base_64_t *b64 = malloc(sizeof(base_64_t));
+	int padding = ((length + 3) % 3)*2 % 3;
+	int len = 4*ceil((double)length/3);
+	char *start = (char*)malloc(len);
+	b64->num = start;
+	b64->size = len;
+
+	int buffer_count = 0;
+
+	while (buffer_count <= length){
+
+		*start++ = base64Dic[buffer[buffer_count] >> 2];
+		*start++ = base64Dic[((buffer[buffer_count] & ((1 << 2) - 1)) << 4) + (buffer[++buffer_count] >> 4)];
+		*start++ = base64Dic[((buffer[buffer_count] & ((1 << 4) - 1)) << 2) + (buffer[++buffer_count] >> 6)];
+		*start++ = base64Dic[buffer[buffer_count++] & ((1 << 6) - 1)];
+
+	}
+
+	//add padding
+	if (padding != 0)
+		*--start = '=';
+	if (padding==2)
+		*--start = '=';
+
+	return b64;
+}
 
 unsigned char asciiToHex(char a){
 	unsigned char hex = a;
@@ -24,26 +53,6 @@ unsigned char asciiToHex(char a){
 		printf("Invalid hex character. Exiting...\n");
 		exit(0);
 	}
-}
-
-int Base64Encode(const unsigned char* buffer, size_t length, char** b64text) {
-	BIO *bio, *b64;
-	BUF_MEM *bufferPtr;
-
-	b64 = BIO_new(BIO_f_base64());
-	bio = BIO_new(BIO_s_mem());
-	bio = BIO_push(b64, bio);
-
-	BIO_set_flags(bio, BIO_FLAGS_BASE64_NO_NL);
-	BIO_write(bio, buffer, length);
-	BIO_flush(bio);
-	BIO_get_mem_ptr(bio, &bufferPtr);
-	BIO_set_close(bio, BIO_NOCLOSE);
-	BIO_free_all(bio);
-
-	*b64text=(*bufferPtr).data;
-
-	return (0); //success
 }
 
 hex_num_t *convertToHex(char * stringNum){

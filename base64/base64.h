@@ -1,8 +1,7 @@
-#include <openssl/bio.h>
-#include <openssl/buffer.h>
-#include <openssl/evp.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
+#include <math.h>
 
 //ascii offsets for hex conversion
 #define HEX_OFFSET_DIG 48
@@ -18,7 +17,7 @@
 #define CHAR_LOW_HIGH 103
 
 typedef struct base_64 {
-	unsigned char* num;
+	char* num;
 	size_t size;
 } base_64_t;
 
@@ -29,6 +28,6 @@ typedef struct hex_num {
 
 unsigned char asciiToHex(char a);
 
-int Base64Encode(const unsigned char *buffer, size_t length, char** b64text);
+base_64_t *Base64Encode(unsigned char *buffer, size_t length);
 
 hex_num_t *convertToHex(char * stringNum);
