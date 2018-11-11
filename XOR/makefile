@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS=-I.
-DEPS = parser.h
-OBJ = main.o parser.o 
+DEPS = parser.h xor.h
+OBJ = main.o xor.o parser.o 
 
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
