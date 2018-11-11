@@ -7,4 +7,4 @@ OBJ = main.o parser.o
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 hellomake: $(OBJ)
-	$(CC) -o parser $^ $(CFLAGS)
+	$(CC) -o xor $^ $(CFLAGS)

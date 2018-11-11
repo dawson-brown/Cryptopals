@@ -7,7 +7,7 @@ const char *argp_program_bug_address;
 /*
    Description of non-option arguments
 */
-static char args_doc[] = "";
+static char args_doc[] = "The 2 numbers to XOR";
 
 /*
   Program documentation.
@@ -17,10 +17,7 @@ static char doc[] = "";
 /*
    the argp structure--for use in main.
 */
-
 extern struct argp_option options[];
-
-enum parser_opts;
 
 error_t parse_opt (int key, char *arg, struct argp_state *state);
 
@@ -30,6 +27,5 @@ struct arguments arguments;
 
 struct arguments
 {                   
-  char *arg1;            /* arguments */
-  int arg2;     
+  char *args[2];            /* arguments */     
 };

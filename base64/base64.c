@@ -24,10 +24,10 @@ base_64_t *Base64Encode(unsigned char* buffer, size_t length) {
 
 	while (buffer_count <= length){
 
-		*start++ = base64Dic[buffer[buffer_count] >> 2];
-		*start++ = base64Dic[((buffer[buffer_count] & ((1 << 2) - 1)) << 4) + (buffer[++buffer_count] >> 4)];
-		*start++ = base64Dic[((buffer[buffer_count] & ((1 << 4) - 1)) << 2) + (buffer[++buffer_count] >> 6)];
-		*start++ = base64Dic[buffer[buffer_count++] & ((1 << 6) - 1)];
+		*start++ = base64Dic[buffer[buffer_count] >> 2]; //eg. 11111111 -> 00111111
+		*start++ = base64Dic[((buffer[buffer_count] & ((1 << 2) - 1)) << 4) + (buffer[++buffer_count] >> 4)]; //eg. (11111111 -> 00110000) + (11111111 -> 00001111)
+		*start++ = base64Dic[((buffer[buffer_count] & ((1 << 4) - 1)) << 2) + (buffer[++buffer_count] >> 6)]; //eg. (11111111 -> 00111100) + (11111111 -> 00000011)
+		*start++ = base64Dic[buffer[buffer_count++] & ((1 << 6) - 1)]; //eg 11111111 -> 0011111111
 
 	}
 

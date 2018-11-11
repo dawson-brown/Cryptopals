@@ -15,15 +15,15 @@ error_t parse_opt (int key, char *arg, struct argp_state *state)
     switch (key)
     {
         case ARGP_KEY_ARG:
-            if (state->arg_num > 1)
+            if (state->arg_num > 2)
             /* Too many arguments. */
                 argp_usage (state);
 
-            arguments->hex = arg;
+            arguments->args[state->arg_num] = arg;
             break;
 
         case ARGP_KEY_END:
-            if (state->arg_num < 1 || state->arg_num > 1)
+            if (state->arg_num < 2 || state->arg_num > 2)
             /* Not enough arguments. */
                 argp_usage (state);
         break;
