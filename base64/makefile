@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-I. -lssl -lcrypto -lm
+CFLAGS=-I. -lm
 DEPS = parser.h base64.h
 OBJ = main.o parser.o base64.o
 
