@@ -1,4 +1,6 @@
 #include <argp.h>
+#include <string.h>
+#include <stdlib.h>
 
 const char *argp_program_version;
 
@@ -7,7 +9,7 @@ const char *argp_program_bug_address;
 /*
    Description of non-option arguments
 */
-static char args_doc[] = "The 2 numbers to XOR";
+static char args_doc[] = "The 2 numbers of equal length to XOR";
 
 /*
   Program documentation.
@@ -29,3 +31,5 @@ struct arguments
 {                   
   char *args[2];            /* arguments */     
 };
+
+void verify_arguments(struct arguments arguments);

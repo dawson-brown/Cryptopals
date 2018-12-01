@@ -11,14 +11,14 @@ static char base64Dic[65] = {
 	'4', '5', '6', '7', '8', '9', '+', '/'
 };
  
-base_64_t *Base64Encode(unsigned char* buffer, size_t length) {
+base_64_t Base64Encode(unsigned char* buffer, size_t length) {
 
-	base_64_t *b64 = malloc(sizeof(base_64_t));
+	base_64_t b64;
 	int padding = ((length + 3) % 3)*2 % 3;
 	int len = 4*ceil((double)length/3);
 	char *start = (char*)malloc(len);
-	b64->num = start;
-	b64->size = len;
+	b64.num = start;
+	b64.size = len;
 
 	int buffer_count = 0;
 
@@ -32,10 +32,11 @@ base_64_t *Base64Encode(unsigned char* buffer, size_t length) {
 	}
 
 	//add padding
-	if (padding != 0)
+	if (padding > 0){
 		*--start = '=';
-	if (padding==2)
-		*--start = '=';
+		if (padding==2)
+			*--start = '=';
+	}
 
 	return b64;
 }
@@ -55,7 +56,7 @@ unsigned char asciiToHex(char a){
 	}
 }
 
-hex_num_t *convertToHex(char * stringNum){
+hex_num_t convertToHex(char * stringNum){
 	//eg. "68" -> 0x68
 
 	int len = strlen(stringNum);
@@ -63,10 +64,10 @@ hex_num_t *convertToHex(char * stringNum){
 
 	unsigned char a,b;
 
-	hex_num_t *hexNum = malloc(sizeof(hex_num_t));
+	hex_num_t hexNum;
 	unsigned char *start = (unsigned char*)malloc(hexLen);
-	hexNum->num = start;
-	hexNum->size = hexLen;
+	hexNum.num = start;
+	hexNum.size = hexLen;
 
 	for(int i=0; i<len-1; i+=2){
 

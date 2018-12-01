@@ -23,7 +23,7 @@ error_t parse_opt (int key, char *arg, struct argp_state *state)
             break;
 
         case ARGP_KEY_END:
-            if (state->arg_num < 2 || state->arg_num > 2)
+            if (state->arg_num != 2)
             /* Not enough arguments. */
                 argp_usage (state);
         break;
@@ -31,5 +31,13 @@ error_t parse_opt (int key, char *arg, struct argp_state *state)
         default:
             return ARGP_ERR_UNKNOWN;
     }
+
     return 0;
+}
+
+void verify_arguments(struct arguments arguments){
+    if (strlen(arguments.args[0]) != strlen(arguments.args[1])){
+        printf("Arguments must be of equal length. Exiting...\n");
+        exit(0);
+    }
 }

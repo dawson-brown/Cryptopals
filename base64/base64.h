@@ -28,6 +28,6 @@ typedef struct hex_num {
 
 unsigned char asciiToHex(char a);
 
-base_64_t *Base64Encode(unsigned char *buffer, size_t length);
+base_64_t Base64Encode(unsigned char *buffer, size_t length);
 
-hex_num_t *convertToHex(char * stringNum);
+hex_num_t convertToHex(char * stringNum);
