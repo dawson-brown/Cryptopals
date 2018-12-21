@@ -9,10 +9,10 @@ const char *argp_program_bug_address;
 /*
    Description of non-option arguments
 */
-static char args_doc[] = "The 2 numbers of equal length to XOR";
+static char args_doc[] = "A tool to complete the XOR encryption problems from cryptopals";
 
 /*
-  Program documentation.
+  Program documentation. 
 */
 static char doc[] = "";
 
@@ -29,7 +29,10 @@ struct arguments arguments;
 
 struct arguments
 {                   
-  char *args[2];            /* arguments */     
+  char *args[2];           
+  char *ciphertext;  
+  char *file;
+  char *file_vigenere;
+  char *vigenere_key;
 };
 
-void verify_arguments(struct arguments arguments);

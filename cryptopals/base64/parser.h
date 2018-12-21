@@ -7,7 +7,7 @@ const char *argp_program_bug_address;
 /*
    Description of non-option arguments
 */
-static char args_doc[] = "The hexidecimal number to convert";
+static char args_doc[] = "Convert between hexidecimal and base 64.";
 
 /*
   Program documentation.
@@ -26,6 +26,7 @@ static struct argp argp = {options, parse_opt, args_doc, doc};
 struct arguments arguments;
 
 struct arguments
-{                   
+{  
+   char *base64;                 
  	char *hex;            /* arguments */     
 };
