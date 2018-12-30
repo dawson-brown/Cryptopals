@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS=-I. -lm
-DEPS = parser.h base64.h
-OBJ = main.o parser.o base64.o
+DEPS = parser.h ../../number_handler/number_handler.h
+OBJ = main.o parser.o ../../number_handler/number_handler.o
 
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)

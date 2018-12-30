@@ -1,6 +1,6 @@
-#include "base64.h"
+#include "number_handler.h"
 
-char base64Dic[66] = {
+char base64_dic[66] = {
 	'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
     'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
     'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
@@ -12,7 +12,7 @@ char base64Dic[66] = {
 	'='
 };
 
-hex_num_t *hex_Init(int len){
+hex_num_t *hex_init(int len){
 
 	hex_num_t *hexNum = (hex_num_t *)malloc(sizeof(hex_num_t));
 	hexNum->num = (unsigned char*)malloc(len);
@@ -21,7 +21,7 @@ hex_num_t *hex_Init(int len){
 
 }
 
-base_64_t *base64_Init(int len, short padding){
+base_64_t *base64_init(int len, short padding){
 
 	base_64_t *base64 = (base_64_t *)malloc(sizeof(base_64_t));
 	base64->num = (unsigned char*)malloc(len);
@@ -31,14 +31,14 @@ base_64_t *base64_Init(int len, short padding){
 
 }
 
-base_64_t *Base64Encode(hex_num_t *hex) {
+base_64_t *base64_encode(hex_num_t *hex) {
 
 	int hex_len = hex->size;
 	unsigned char *buffer = hex->num;
 
 	short padding = ((hex_len + 3) % 3)*2 % 3;
 	int len = 4*ceil((double)hex_len/3);
-	base_64_t *b64 = base64_Init(len, padding);
+	base_64_t *b64 = base64_init(len, padding);
 	unsigned char *start = b64->num;
 
 	int buffer_count = 0;
@@ -65,14 +65,14 @@ base_64_t *Base64Encode(hex_num_t *hex) {
 
 }
 
-hex_num_t *Base64Decode(base_64_t *base64){
+hex_num_t *base64_decode(base_64_t *base64){
 	
 	int base64_len = base64->size;
 	unsigned char *buffer = base64->num;
 
 	short padding = base64->padding;
 	int len = ((3*base64_len)/4)-(((base64_len + 4)+padding)%4);
-	hex_num_t *hex = hex_Init(len);
+	hex_num_t *hex = hex_init(len);
 	unsigned char *start = hex->num;
 
 	int buffer_count = 0;
@@ -89,7 +89,7 @@ hex_num_t *Base64Decode(base_64_t *base64){
 	return hex;
 }
 
-unsigned char asciiToHex(char a){
+unsigned char ascii_to_hex(char a){
 
 	unsigned char hex = a;
 
@@ -106,20 +106,20 @@ unsigned char asciiToHex(char a){
 
 }
 
-hex_num_t *convertToHex(char * stringNum){
+hex_num_t *convert_to_hex(char * stringNum){
 
 	int len = strlen(stringNum);
 	int hexLen = len % 2 == 0 ? len/2 : len/2 + 1;
 
 	unsigned char a,b;
 
-	hex_num_t *hexNum = hex_Init(hexLen);
+	hex_num_t *hexNum = hex_init(hexLen);
 	unsigned char *start = hexNum->num;
 
 	for(int i=0; i<len-1; i+=2){
 
-		a = asciiToHex(stringNum[i]);
-		b = asciiToHex(stringNum[i+1]);
+		a = ascii_to_hex(stringNum[i]);
+		b = ascii_to_hex(stringNum[i+1]);
 
 		a = a << 4;
 		*start = a+b;
@@ -128,7 +128,7 @@ hex_num_t *convertToHex(char * stringNum){
 	}
 
 	if (len % 2 != 0){
-		a = asciiToHex(stringNum[len-1]);
+		a = ascii_to_hex(stringNum[len-1]);
 		a = a << 4;
 		*start = a;
 	}
@@ -136,7 +136,7 @@ hex_num_t *convertToHex(char * stringNum){
 
 }
 
-unsigned char asciiToBase64(char a){
+unsigned char ascii_to_base64(char a){
 
 	unsigned char base64 = a;
 
@@ -160,7 +160,7 @@ unsigned char asciiToBase64(char a){
 
 }
 
-base_64_t *convertToBase64(char *buffer){
+base_64_t *convert_to_base64(char *buffer){
 
 	int len = strlen(buffer);
 
@@ -172,11 +172,11 @@ base_64_t *convertToBase64(char *buffer){
 	else
 		padding = 0;
 
-	base_64_t *base64 = base64_Init(len, padding);
+	base_64_t *base64 = base64_init(len, padding);
 	unsigned char *start = base64->num;
 	
 	for (int i=0; i<len; i++){
-		*start++ = asciiToBase64(buffer[i]);
+		*start++ = ascii_to_base64(buffer[i]);
 	}
 
 	return base64;
@@ -197,14 +197,14 @@ void print_base64(char *msg, base_64_t *base64){
 
 	printf("%s", msg);
 	for (int i=0; i<base64->size; i++){
-		char c = base64Dic[base64->num[i]];
-        printf("%c", base64Dic[base64->num[i]]);
+		char c = base64_dic[base64->num[i]];
+        printf("%c", base64_dic[base64->num[i]]);
 	}
     printf("\n");
 
 }
 
-void free_hexNum(hex_num_t *hex){
+void free_hex_num(hex_num_t *hex){
 
 	free(hex->num);
 	free(hex);

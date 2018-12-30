@@ -1,4 +1,4 @@
-#include "base64.h"
+#include "../../number_handler/number_handler.h"
 #include "parser.h"
 
 int main(int argc, char **argv)
@@ -12,16 +12,16 @@ int main(int argc, char **argv)
     base_64_t *base64;
     
     if (arguments.hex != NULL){
-        hex = convertToHex(arguments.hex);
-        base64 = Base64Encode(hex);
+        hex = convert_to_hex(arguments.hex);
+        base64 = base64_encode(hex);
         print_base64("Output (base64): ", base64);
     } else {
-        base64 = convertToBase64(arguments.base64);
-        hex = Base64Decode(base64);
+        base64 = convert_to_base64(arguments.base64);
+        hex = base64_decode(base64);
         print_hex("Output (hex): ", hex);
     }
     
-    free_hexNum(hex);
+    free_hex_num(hex);
     free_base64(base64);
 
     return 0;
