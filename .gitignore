@@ -5,6 +5,4 @@
 .vscode/
 
 # ignore exectuable file
-parser
-hex64
-xor
+main

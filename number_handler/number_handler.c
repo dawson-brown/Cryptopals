@@ -93,11 +93,11 @@ unsigned char ascii_to_hex(char a){
 
 	unsigned char hex = a;
 
-	if (hex > DIGIT_LOW && hex < DIGIT_HIGH){
-		return hex-HEX_OFFSET_DIG;
-	} else if (hex > UPPERCASE_LOW_BOUND && hex < UPPERCASE_HEX_HIGH_BOUND){
+	if (hex >= '0' && hex <= '9'){
+		return hex-'0';
+	} else if (hex >= 'A' && hex <= 'F'){
 		return hex-HEX_OFFSET_CHAR_CAP;
-	} else if (hex > LOWERCASE_LOW_BOUND && hex < LOWER_HEX_HIGH_BOUND){
+	} else if (hex >= 'a' && hex <= 'f'){
 		return hex-HEX_OFFSET_CHAR_LOW;
 	} else {
 		printf("Invalid hex character: %c   Exiting...\n", hex);
@@ -138,25 +138,22 @@ hex_num_t *convert_to_hex(char * stringNum){
 
 unsigned char ascii_to_base64(char a){
 
-	unsigned char base64 = a;
-
-	if ((base64 > UPPERCASE_LOW_BOUND) && (base64 < UPPERCASE_HIGH_BOUND))
-		return base64 - UPPERCASE_BASE64_OFFSET;
-	else if ((base64 > LOWERCASE_LOW_BOUND) && (base64 < LOWERCASE_HIGH_BOUND))
-		return base64 - LOWERCASE_BASE64_OFFSET;
-	else if (base64 > DIGIT_LOW && base64 < DIGIT_HIGH)
-		return base64 + DIGIT_BASE64_OFFSET;
-	else if (base64 == '+')
+	if ((a >= 'A') && (a <= 'Z'))
+		return a - UPPERCASE_BASE64_OFFSET;
+	else if ((a >= 'a') && (a <= 'z'))
+		return a - LOWERCASE_BASE64_OFFSET;
+	else if (a >= '0' && a <= '9')
+		return a + DIGIT_BASE64_OFFSET;
+	else if (a == '+')
 		return 62;
-	else if (base64 == '/')
+	else if (a == '/')
 		return 63;
-	else if (base64 == '=')
+	else if (a == '=')
 		return 64;
 	else {
-		printf("Invalid base 64 character: %c   Exiting...\n", base64);
+		printf("Invalid base 64 character: %c   Exiting...\n", a);
 		exit(0);
 	}
-
 
 }
 
@@ -164,13 +161,11 @@ base_64_t *convert_to_base64(char *buffer){
 
 	int len = strlen(buffer);
 
-	short padding;
+	short padding = 0;
 	if (buffer[len-2]== '=')
 		padding = 2;
 	else if (buffer[len-1]=='=')
 		padding = 1;
-	else
-		padding = 0;
 
 	base_64_t *base64 = base64_init(len, padding);
 	unsigned char *start = base64->num;
@@ -187,7 +182,7 @@ void print_hex(char *msg, hex_num_t *hex){
 
 	printf("%s", msg);
 	for (int i=0; i<hex->size; i++)
-        printf("%x", hex->num[i]);
+        printf("%c", hex->num[i]);
 
     printf("\n");
 

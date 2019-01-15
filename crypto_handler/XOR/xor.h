@@ -1,5 +1,4 @@
 #include "../../number_handler/number_handler.h"
-#include "../../file_handler/file_handler.h"
 
 //27 to included [spaces]
 #define ALPHA_SIZE 27

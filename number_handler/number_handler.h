@@ -11,23 +11,6 @@
 #define HEX_OFFSET_CHAR_LOW 87
 #define HEX_OFFSET_CHAR_CAP 55
 
-//ascii ranges for 0-9, F, f
-#define DIGIT_LOW 47
-#define DIGIT_HIGH 58
-#define UPPERCASE_HEX_HIGH_BOUND 71
-#define LOWER_HEX_HIGH_BOUND 103
-
-//ascii bounds for A-Z and a-z in hex
-#define LOWERCASE_LOW_BOUND 96
-#define LOWERCASE_HIGH_BOUND 123
-
-#define UPPERCASE_LOW_BOUND 64
-#define UPPERCASE_HIGH_BOUND 91
-
-//ascii offsets for index conversion (just the lower bound--added for clarity)
-#define LOWERCASE_OFFSET 97
-#define UPPERCASE_OFFSET 65
-
 //for ascii to base 64 conversion
 #define UPPERCASE_BASE64_OFFSET 65
 #define LOWERCASE_BASE64_OFFSET 71

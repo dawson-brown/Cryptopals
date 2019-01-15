@@ -1,11 +1,8 @@
 #include "xor.h"
 
 hex_num_t *xor_sum(hex_num_t *hex1, hex_num_t *hex2){
-
-	if (hex1->size != hex2->size)
-		exit(0);
 	
-	int len = hex1->size;
+	int len = hex1->size < hex2->size ? hex1->size : hex2->size;
 	hex_num_t *xor = hex_init(len);
 
 	for (int i=0; i<len; i++){
@@ -48,8 +45,7 @@ float total_cost(hex_num_t *text){
 
 keyed_text_t *cipher_char_guess(hex_num_t *hex){
 
-	float cost, best;
-	best = __FLT_MAX__;
+	float cost, best = __FLT_MAX__;
 	hex_num_t *plaintext = hex_init(hex->size);
 	keyed_text_t *keyed_text = keyed_text_init();
 
@@ -93,13 +89,12 @@ keyed_text_t *detect_single_xor(FILE* file){
 		line[len] = '\0';	
 		hex_line = convert_to_hex(line);
 		key_line = cipher_char_guess(hex_line);
-		if (key_line->cost<best){
+		if (key_line->cost < best){
 			guess = key_line;
 			best = key_line->cost;			
 		}
 	}
 
-	fclose(file);
 
 	return guess;
 
