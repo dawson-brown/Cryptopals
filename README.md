@@ -1,7 +1,3 @@
-# My crypto library
+# Cryptopals
 
-This is various projects I've been working on related to cryptography.
-
-So far included:
-   -some completed cryptopals challenges
-   -my own c implementation of AES
+These are my solutions to the cryptopals challenges. The goal is eventually to only use what's available in the C standard library. For now I'll lean on OpenSSL, but I'd like to implement AES and SHA and whatnot eventually.
