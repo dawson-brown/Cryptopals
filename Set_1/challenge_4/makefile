@@ -7,4 +7,4 @@ OBJ = main.o ch4.o
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 hellomake: $(OBJ)
-	$(CC) -o xor $^ $(CFLAGS)
+	$(CC) -o main $^ $(CFLAGS)

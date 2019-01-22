@@ -1,20 +1,16 @@
-#include <stdio.h>
-#include "../../file_handler/file_handler.h"
-#include "../../crypto_handler/XOR/xor.h"
+#include "ch5.h"
 
-int main(){
+const static char *text = "Burning 'em, if you ain't quick and nimble\nI go crazy when I hear a cymbal";
+const static char *key = "ICE";
 
-    char *filename = "text";
-    char *key = "ICE";
+int main()
+{
+    int len = strlen(text);
+    unsigned char *ciphertext = malloc(len);
+    repeated_xor(text, ciphertext,len, key);
 
-    char *string = file_open_read(filename);
-    vigenere_text_t *vig = vigenere_init(string, key);
-    vigenere_enc(vig);
+    print_hex(text, len);
+    print_hex(ciphertext, len);
 
-    printf("Encrypted: ");
-    for (int i=0; i<vig->size; i++)
-        printf("%x", vig->text[i]);
-    printf("\n");
-
-    free_vigenere_text(vig);
+    free(ciphertext);
 }
