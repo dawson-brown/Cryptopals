@@ -30,19 +30,19 @@ float string_cost(const unsigned char *string, int len)
 
 float cipher_char_guess(const unsigned char *hex, unsigned char *temp_best, int len, unsigned char *key)
 {
-    unsigned char *plaintext = malloc(len);
+    unsigned char *plaintext = malloc(len), temp_key = '\0';
     float best = __FLT_MAX__;
 
-    for(int i=0; i<256; i++){
-        dec(hex, plaintext, i, len);
+    do {
+        dec(hex, plaintext, temp_key, len);
         float cost = string_cost(plaintext, len);
         if (cost<best)
         {
             best = cost;
             memcpy(temp_best, plaintext, len);
-            *key = i;
+            *key = temp_key;
         }
-    }
+    } while (++temp_key);
     free(plaintext);
     return best;
 }

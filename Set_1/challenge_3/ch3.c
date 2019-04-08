@@ -32,18 +32,19 @@ unsigned char *cipher_char_guess(const unsigned char *hex, int len, unsigned cha
 {
     unsigned char *plaintext = malloc(len);
     unsigned char *best_plaintext = malloc(len);
+    unsigned char temp_key = '\0';
     float best = __FLT_MAX__;
 
-    for(int i=0; i<256; i++){
-        dec(hex, plaintext, i, len);
+    do {
+        dec(hex, plaintext, temp_key, len);
         float cost = string_cost(plaintext, len);
         if (cost<best)
         {
             memcpy(best_plaintext, plaintext, len);
             best = cost;
-            *key = i;
+            *key = temp_key;
         }
-    }
+    } while (++temp_key);
     free(plaintext);
     return best_plaintext;
 }

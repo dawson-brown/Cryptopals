@@ -1,10 +1,10 @@
 CC=gcc
 CFLAGS=-I. -lm
-DEPS = ch6.h
-OBJ = main.o ch6.o
+DEPS = aes.h
+OBJ = main.o aes.o
 
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 hellomake: $(OBJ)
-	$(CC) -o main $^ $(CFLAGS)
+	$(CC) -o aes $^ $(CFLAGS)

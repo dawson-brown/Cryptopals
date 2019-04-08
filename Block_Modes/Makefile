@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS=-I. -lm
-DEPS = ch6.h
-OBJ = main.o ch6.o
+DEPS = modes.h
+OBJ = main.o modes.o
 
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
