@@ -1,57 +1,57 @@
 #include "modes.h"
+#include <stdio.h>
 
-
-block_ctx_t init_ciphertext(unsigned char *input, int block, int len, unsigned char **end)
-{
-
+text_ctx_t pkcs7_padding(unsigned char *input, int block, int len){
     unsigned char pad = (unsigned char)block - (len % block);
     int length = len + (pad==block ? 0 : pad);
-    unsigned char *text = malloc(length * sizeof * text);
-    *end = text + length;
+    input = realloc(input, length * sizeof * input);
 
-    memcpy(text, input, len);
     if (pad != block)
-        memset( (*end - pad), pad, pad);
+        memset( (input + length - pad), pad, pad);
 
-    return (block_ctx_t){.text = text, .length = length};
+    return (text_ctx_t){ .text = input, .length = length };
+}
+
+block_ctx_t init_block_ctx(unsigned char *input, int block, int len, unsigned char *key, int key_len)
+{
+
+    text_ctx_t text = pkcs7_padding(input, block, len);
+    key_ctx_t block_key = { .key = key, .len = key_len };
+
+    return (block_ctx_t){.data = text, .key = block_key, .block_size = block };
     
 }
 
-block_ctx_t ecb_enc(unsigned char *(*cipher)(unsigned char*, unsigned char*), unsigned char *input, unsigned char *key, int block_size, int length)
+void ecb_enc(void (*cipher)(unsigned char*, unsigned char*), block_ctx_t input)
 {
 
-    unsigned char *end;
-    block_ctx_t state = init_ciphertext(input, block_size, length, &end);
-    unsigned char *next = state.text;
+    unsigned char *next = input.data.text;
+    unsigned char *end = input.data.text + input.data.length;
 
     while (next < end){
 
-        next = cipher(next, key);
-        next++;
+        cipher(next, input.key.key);
+        next+=input.block_size;
 
     }
-
-    return state;
 }
 
-block_ctx_t ecb_dec(unsigned char *(*cipher)(unsigned char*, unsigned char*), block_ctx_t input, unsigned char *key)
+void ecb_dec(void (*cipher)(unsigned char*, unsigned char*), block_ctx_t input)
 {
 
     unsigned char *start, *end;
 
-    start = malloc(input.length * sizeof * start);
-    end = start + input.length;
-    memcpy(start, input.text, input.length);
-    block_ctx_t state = {.text = start, .length = input.length};
+    start = input.data.text;
+    end = start + input.data.length;
+    unsigned char block_key[input.key.len];
 
     while (start < end){
 
-        start = cipher(start, key);
-        start++;
+        memcpy(block_key, input.key.key, input.key.len);
+        cipher(start, block_key);
+        start+=input.block_size;
 
     }
-
-    return state;
 }
 
 /*

@@ -17,6 +17,8 @@ unsigned char sub_i(unsigned char byte);
 
 unsigned char mul(unsigned char a, unsigned char b);
 
-void enc(aes_t *state, unsigned char *key);
+void key_expand(unsigned char *key);
 
-void dec(aes_t *state, unsigned char *key);
+void aes_enc(aes_t *state, unsigned char *key);
+
+void aes_dec(aes_t *state, unsigned char *key);

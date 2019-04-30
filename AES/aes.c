@@ -45,7 +45,7 @@ unsigned char sub_i(unsigned char byte){
   
 }
 
-void enc(aes_t *state, unsigned char *key)
+void aes_enc(aes_t *state, unsigned char *key)
 {
   unsigned char j, i, rc='\x01', rc_i = '\x80', rc_x='\x00', s[16];
   
@@ -80,7 +80,24 @@ void enc(aes_t *state, unsigned char *key)
   for (BLOCK) state[j] ^= key[j];
 }
 
-void dec(aes_t *state, unsigned char *key){
+void key_expand(unsigned char *key){
+  unsigned char j, i, rc='\x01', rc_i = '\x80', rc_x='\x00';
+
+  for(ROUNDS)
+  {
+    //update round key
+      for (KEY) 
+        key[j] = j<4 ? 
+            key[j]^sub(key[j==3 ? 12 : j+13])^(j==0 ? rc : 0):
+            (key[j]^key[j-NK]); 
+
+      //update rc      
+      rc_x=(rc==rc_i)?'\x1B':'\x00';
+      rc = (rc<<1)^rc_x;
+  }
+}
+
+void aes_dec(aes_t *state, unsigned char *key){
 
   unsigned char i, rc='\x36', rc_i = '\x1b', rc_x='\x00', s[16];
   char j;
@@ -116,6 +133,7 @@ void dec(aes_t *state, unsigned char *key){
     }
     //add round key
     for (BLOCK) state[j] ^= key[j];
+    int x=0;
   }
 }
 

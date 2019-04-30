@@ -5,6 +5,15 @@
 #include <stdio.h>
 #include <string.h>
 
-fopen_read(char *filename);
+typedef struct hex {
+    unsigned char *num;
+    int len;
+} hex_t;
 
-unsigned char *base64_decode(const unsigned char *base64, int base64_len);
+unsigned char ascii_to_base64(char a);
+
+unsigned char *fopen_read(char *filename);
+
+hex_t base64_decode(const unsigned char *base64, int base64_len);
+
+void print(unsigned char *text, int len);
