@@ -1,0 +1,3 @@
+[submodule "Symmetric-Ciphers"]
+	path = Symmetric-Ciphers
+	url = https://github.com/dawson-brown/Symmetric-Ciphers.git
